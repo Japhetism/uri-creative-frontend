@@ -7,8 +7,18 @@ export interface IApplication extends IStatus {
   dateApplied: string;
 }
 
-export interface IApplicationStats {
+export interface IApplicationStatusCount {
   pending: number;
   accepted: number;
   rejected: number;
 }
+
+interface MonthCount {
+  [key: string]: number; 
+};
+
+export interface IApplicationStatistics {
+  total: number;
+  countByStatus: IApplicationStatusCount;
+  countByMonth: MonthCount;
+};

@@ -5,13 +5,13 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import Notification from '../notification';
 import { getApplicationStats } from '../../service/api';
-import { IApplicationStats } from '@/interfaces/application';
+import { IApplicationStatusCount } from '@/interfaces/application';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const ApplicationStatistics: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [stats, setStats] = useState<IApplicationStats>({ pending: 0, accepted: 0, rejected: 0 });
+  const [stats, setStats] = useState<IApplicationStatusCount>({ pending: 0, accepted: 0, rejected: 0 });
   const [notification, setNotification] = useState<{
     message: string;
     type: 'success' | 'error';
@@ -29,7 +29,7 @@ const ApplicationStatistics: React.FC = () => {
       setIsLoading(true);
       try {
         const { data } = await getApplicationStats();
-        setStats(data.countByStatus);
+        setStats(data?.countByStatus);
       } catch (error) {
         console.error('Error fetching application stats:', error);
         showError();

@@ -1,4 +1,4 @@
-import { IApplication, IApplicationStats } from '@/interfaces/application';
+import { IApplication, IApplicationStatistics } from '@/interfaces/application';
 import axios from 'axios';
 
 const BASE_URL = 'https://uri-creative-backend.onrender.com';
@@ -13,9 +13,9 @@ export const getApplications = async (params: Record<string, string> = {}): Prom
   }
 };
 
-export const getApplicationStats = async (): Promise<{ data: IApplicationStats }> => {
+export const getApplicationStats = async (): Promise<{ data: IApplicationStatistics }> => {
   try {
-    const response = await axios.get<{ data: IApplicationStats }>(`${BASE_URL}/applications/stats`);
+    const response = await axios.get<{ data: IApplicationStatistics }>(`${BASE_URL}/applications/stats`);
     return response.data;
   } catch (error) {
     console.error('Error fetching application stats:', error);
