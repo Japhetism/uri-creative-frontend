@@ -20,7 +20,6 @@ const ApplicationTable: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [applications, setApplications] = useState<IApplication[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ page: 1, totalPages: 1 });
-  const [sortKey, setSortKey] = useState<keyof IApplication | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [filterStatus, setFilterStatus] = useState<string>('');
   const [startDate, setStartDate] = useState<string | null>(null);

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const BASE_URL = 'https://uri-creative-backend.onrender.com';
 
-export const getApplications = async (params: Record<string, any> = {}): Promise<{ data: IApplication[], totalPages: number }> => {
+export const getApplications = async (params: Record<string, string> = {}): Promise<{ data: IApplication[], totalPages: number }> => {
   try {
     const response = await axios.get<{ data: IApplication[], totalPages: number }>(`${BASE_URL}/applications`, { params });
     return response.data;
