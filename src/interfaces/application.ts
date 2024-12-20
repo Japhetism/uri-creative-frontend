@@ -1,3 +1,4 @@
+import { SetStateAction } from "react";
 import { IStatus } from "./status";
 
 export interface IApplication extends IStatus {
@@ -8,8 +9,5 @@ export interface IApplication extends IStatus {
 }
 
 export interface IApplicationStats {
-  [x: string]: any;
-  pending: number;
-  accepted: number;
-  rejected: number;
+  [x: string]: SetStateAction<IApplicationStats>;
 }

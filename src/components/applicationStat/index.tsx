@@ -11,7 +11,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const ApplicationStatistics: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [stats, setStats] = useState<IApplicationStats>({ pending: 0, accepted: 0, rejected: 0 });
+  const [stats, setStats] = useState<IApplicationStats>();
   const [notification, setNotification] = useState<{
     message: string;
     type: 'success' | 'error';
@@ -49,7 +49,7 @@ const ApplicationStatistics: React.FC = () => {
     datasets: [
       {
         label: 'Applications by Status',
-        data: [stats.pending, stats.accepted, stats.rejected],
+        data: [stats?.pending || 0, stats?.accepted || 0, stats?.rejected || 0],
         backgroundColor: ['#ffbb33', '#4caf50', '#f44336'],
       },
     ],
