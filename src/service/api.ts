@@ -13,9 +13,9 @@ export const getApplications = async (params: Record<string, any> = {}): Promise
   }
 };
 
-export const getApplicationStats = async (): Promise<IApplicationStats> => {
+export const getApplicationStats = async (): Promise<{ data: IApplicationStats }> => {
   try {
-    const response = await axios.get<IApplicationStats>(`${BASE_URL}/applications/stats`);
+    const response = await axios.get<{ data: IApplicationStats }>(`${BASE_URL}/applications/stats`);
     return response.data;
   } catch (error) {
     console.error('Error fetching application stats:', error);

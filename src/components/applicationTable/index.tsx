@@ -48,12 +48,13 @@ const ApplicationTable: React.FC = () => {
       setIsLoading(true);
       try {
         const { data } = await getApplications();
-        setIsLoading(false);
         setApplications(data);
         setPagination({ page: 1, totalPages: Math.ceil(data.length / itemsPerPage) });
       } catch (error) {
         console.error('Error fetching applications:', error);
         showError();
+      }
+      finally {
         setIsLoading(false);
       }
     };
