@@ -5,4 +5,6 @@ export interface IFilters {
   sortOrder: SortOrder
   setFilterStatus: (filter: string) => void
   setSortOrder: (order: SortOrder) => void
+  setStartDate: (date: string) => void
+  setEndDate: (date: string) => void
 }

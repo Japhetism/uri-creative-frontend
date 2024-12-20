@@ -1,26 +1,33 @@
 import { IApplication } from "@/interfaces/application";
 import { SortOrder } from "@/interfaces/status";
 
-export const filterApplications = (applications: IApplication[], filterStatus: string): IApplication[] => {
-  if (filterStatus !== '') {
-    return applications.filter(
-    (application) => application?.status?.toLowerCase() === filterStatus?.toLowerCase()
-    );
-  }
-  return applications;
-};
-
-export const sortApplications = (applications: IApplication[], sortKey: keyof IApplication, sortOrder: SortOrder): IApplication[] => {
+export const sortApplications = (applications: IApplication[], sortOrder: SortOrder) => {
   return applications.sort((a, b) => {
-    const valueA = a[sortKey];
-    const valueB = b[sortKey];
+    const dateA = a.dateApplied;
+    const dateB = b.dateApplied;
 
-    if (typeof valueA === 'string' && typeof valueB === 'string') {
-      return sortOrder === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+    if (sortOrder === 'asc') {
+      return dateA > dateB ? 1 : dateA < dateB ? -1 : 0;
+    } else {
+      return dateA < dateB ? 1 : dateA > dateB ? -1 : 0;
     }
-    if (valueA instanceof Date && valueB instanceof Date) {
-      return sortOrder === 'asc' ? valueA.getTime() - valueB.getTime() : valueB.getTime() - valueA.getTime();
-    }
-    return sortOrder === 'asc' ? (valueA as number) - (valueB as number) : (valueB as number) - (valueA as number);
+  });
+}
+
+export const filterApplications = (
+  applications: IApplication[],
+  filterStatus: string,
+  startDate: string | null,
+  endDate: string | null
+): IApplication[] => {
+  return applications.filter((application) => {
+    const matchesStatus = filterStatus ? application.status === filterStatus : true;
+
+    const applicationDate = new Date(application.dateApplied);
+    const matchesStartDate = startDate ? applicationDate >= new Date(startDate) : true;
+    const matchesEndDate = endDate ? applicationDate <= new Date(endDate) : true;
+
+    return matchesStatus && matchesStartDate && matchesEndDate;
   });
 };
+

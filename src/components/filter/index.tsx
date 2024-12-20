@@ -1,6 +1,7 @@
-import { IFilters } from "@/interfaces/filter";
+import React from 'react';
+import { IFilters } from '@/interfaces/filter';
 
-const Filters: React.FC<IFilters> = ({ filterStatus, sortOrder, setFilterStatus, setSortOrder }) => {
+const Filters: React.FC<IFilters> = ({ filterStatus, sortOrder, setFilterStatus, setSortOrder, setStartDate, setEndDate }) => {
   return (
     <div className="flex space-x-4 mb-4">
       <select
@@ -21,6 +22,18 @@ const Filters: React.FC<IFilters> = ({ filterStatus, sortOrder, setFilterStatus,
         <option value="asc">Oldest</option>
         <option value="desc">Newest</option>
       </select>
+      <input
+        type="date"
+        onChange={(e) => setStartDate(e.target.value)}
+        className="border p-2 rounded"
+        placeholder="Start Date"
+      />
+      <input
+        type="date"
+        onChange={(e) => setEndDate(e.target.value)}
+        className="border p-2 rounded"
+        placeholder="End Date"
+      />
     </div>
   );
 };

@@ -23,6 +23,8 @@ const ApplicationTable: React.FC = () => {
   const [sortKey, setSortKey] = useState<keyof IApplication | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [filterStatus, setFilterStatus] = useState<string>('');
+  const [startDate, setStartDate] = useState<string | null>(null);
+  const [endDate, setEndDate] = useState<string | null>(null);
   const [filteredApplications, setFilteredApplications] = useState<IApplication[]>([]);
   const [notification, setNotification] = useState<{
     message: string;
@@ -40,7 +42,6 @@ const ApplicationTable: React.FC = () => {
     setNotification(null);
   };
 
-
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -53,8 +54,7 @@ const ApplicationTable: React.FC = () => {
       } catch (error) {
         console.error('Error fetching applications:', error);
         showError();
-      }
-      finally {
+      } finally {
         setIsLoading(false);
       }
     };
@@ -62,11 +62,12 @@ const ApplicationTable: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = filterApplications(applications, filterStatus);
-    const sorted = sortKey ? sortApplications(filtered, sortKey, sortOrder) : filtered;
+    console.log("sort order ", sortOrder)
+    const filtered = filterApplications(applications, filterStatus, startDate, endDate);
+    const sorted = sortApplications(filtered, sortOrder);
     setFilteredApplications(sorted);
     setPagination({ page: 1, totalPages: Math.ceil(sorted.length / itemsPerPage) });
-  }, [filterStatus, applications, sortKey, sortOrder]);
+  }, [filterStatus, applications, sortOrder, startDate, endDate]);
 
   const getPaginatedApplications = () => {
     const startIndex = (pagination.page - 1) * itemsPerPage;
@@ -75,13 +76,13 @@ const ApplicationTable: React.FC = () => {
   };
 
   const handlePageChange = (newPage: number) => {
-    setPagination(prev => ({
+    setPagination((prev) => ({
       ...prev,
-      page: newPage
+      page: newPage,
     }));
   };
 
-  if (isLoading) return <ApplicationSkeletonLoader />
+  if (isLoading) return <ApplicationSkeletonLoader />;
 
   return (
     <div className="overflow-x-auto">
@@ -90,22 +91,16 @@ const ApplicationTable: React.FC = () => {
         filterStatus={filterStatus}
         setSortOrder={setSortOrder}
         setFilterStatus={setFilterStatus}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
       />
       <table className="min-w-full table-auto border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
-            <th className="p-4 text-left border-b cursor-pointer">
-              Job Title
-            </th>
-            <th className="p-4 text-left border-b cursor-pointer">
-              Company Name
-            </th>
-            <th className="p-4 text-left border-b cursor-pointer">
-              Status
-            </th>
-            <th className="p-4 text-left border-b cursor-pointer">
-              Date Applied
-            </th>
+            <th className="p-4 text-left border-b cursor-pointer">Job Title</th>
+            <th className="p-4 text-left border-b cursor-pointer">Company Name</th>
+            <th className="p-4 text-left border-b cursor-pointer">Status</th>
+            <th className="p-4 text-left border-b cursor-pointer">Date Applied</th>
           </tr>
         </thead>
         <tbody>
