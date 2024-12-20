@@ -11,7 +11,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const ApplicationStatistics: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [stats, setStats] = useState<IApplicationStats>();
+  const [stats, setStats] = useState<IApplicationStats>({ pending: 0, accepted: 0, rejected: 0 });
   const [notification, setNotification] = useState<{
     message: string;
     type: 'success' | 'error';
@@ -24,10 +24,6 @@ const ApplicationStatistics: React.FC = () => {
     });
   };
 
-  const closeNotification = () => {
-    setNotification(null);
-  };
-
   useEffect(() => {
     const fetchStats = async () => {
       setIsLoading(true);
@@ -37,7 +33,8 @@ const ApplicationStatistics: React.FC = () => {
       } catch (error) {
         console.error('Error fetching application stats:', error);
         showError();
-      } finally {
+      }
+      finally {
         setIsLoading(false);
       }
     };
@@ -49,7 +46,7 @@ const ApplicationStatistics: React.FC = () => {
     datasets: [
       {
         label: 'Applications by Status',
-        data: [stats?.pending || 0, stats?.accepted || 0, stats?.rejected || 0],
+        data: [stats.pending, stats.accepted, stats.rejected],
         backgroundColor: ['#ffbb33', '#4caf50', '#f44336'],
       },
     ],
