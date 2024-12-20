@@ -24,6 +24,10 @@ const ApplicationStatistics: React.FC = () => {
     });
   };
 
+  const closeNotification = () => {
+    setNotification(null);
+  };
+
   useEffect(() => {
     const fetchStats = async () => {
       setIsLoading(true);
@@ -33,8 +37,7 @@ const ApplicationStatistics: React.FC = () => {
       } catch (error) {
         console.error('Error fetching application stats:', error);
         showError();
-      }
-      finally {
+      } finally {
         setIsLoading(false);
       }
     };

@@ -8,6 +8,7 @@ export interface IApplication extends IStatus {
 }
 
 export interface IApplicationStats {
+  [x: string]: any;
   pending: number;
   accepted: number;
   rejected: number;
