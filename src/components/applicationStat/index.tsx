@@ -24,6 +24,10 @@ const ApplicationStatistics: React.FC = () => {
     });
   };
 
+  const closeNotification = () => {
+    setNotification(null);
+  };
+
   useEffect(() => {
     const fetchStats = async () => {
       setIsLoading(true);
